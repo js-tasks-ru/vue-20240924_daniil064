@@ -1,39 +1,41 @@
-import { defineComponent } from 'vue';
-import { getWeatherData, WeatherConditionIcons } from './weather.service.ts';
+import { defineComponent } from 'vue'
+import { getWeatherData, WeatherConditionIcons } from './weather.service.ts'
 
 export default defineComponent({
   name: 'WeatherApp',
 
   setup() {
-    const calculateTemp = weather => {
-      const temp = weather.current.temp - 273.15;
+    const weatherData = getWeatherData()
 
-      return `${temp.toFixed(1)} °C`;
-    };
+    const calculateTemp = weather => {
+      const temp = weather.current.temp - 273.15
+
+      return `${temp.toFixed(1)} °C`
+    }
 
     const findIconCondition = weatherId => {
-      return WeatherConditionIcons[weatherId];
-    };
+      return WeatherConditionIcons[weatherId]
+    }
 
     const hasNight = weather => {
-      return weather.current.dt < weather.current.sunrise || weather.current.dt >= weather.current.sunset;
-    };
+      return weather.current.dt < weather.current.sunrise || weather.current.dt >= weather.current.sunset
+    }
 
     const convertPressure = pressureInMPa => {
-      const pressureInHPa = pressureInMPa * 1000;
+      const pressureInHPa = pressureInMPa * 1000
 
-      const pressureInMmHg = (pressureInHPa * 0.75) / 1000;
+      const pressureInMmHg = (pressureInHPa * 0.75) / 1000
 
-      return Math.round(pressureInMmHg);
-    };
+      return Math.round(pressureInMmHg)
+    }
 
     return {
-      getWeatherData,
+      weatherData,
       calculateTemp,
       findIconCondition,
       hasNight,
       convertPressure,
-    };
+    }
   },
 
   template: `
@@ -41,7 +43,7 @@ export default defineComponent({
       <h1 class="title">Погода в Средиземье</h1>
 
       <ul class="weather-list unstyled-list">
-        <li v-for="weather in getWeatherData()" class="weather-card" :class="{'weather-card--night': hasNight(weather)}">
+        <li v-for="weather in weatherData" class="weather-card" :class="{'weather-card--night': hasNight(weather)}">
         <div v-if="weather.alert" class="weather-alert">
             <span class="weather-alert__icon">⚠️</span>
             <span class="weather-alert__description">{{weather.alert.sender_name}}: {{weather.alert.description}}</span>
@@ -83,4 +85,4 @@ export default defineComponent({
       </ul>
     </div>
   `,
-});
+})
