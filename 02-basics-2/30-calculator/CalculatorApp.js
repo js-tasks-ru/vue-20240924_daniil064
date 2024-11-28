@@ -1,33 +1,25 @@
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 
 export default defineComponent({
   setup() {
     const firstOperand = ref(0)
     const secondOperand = ref(0)
-    const outputValue = ref(0)
     const operator = ref('sum')
 
-    const calculateValue = () => {
+    const outputValue = computed(() => {
       switch (operator.value) {
         case 'sum':
-          outputValue.value = firstOperand.value + secondOperand.value
-          break
+          return firstOperand.value + secondOperand.value
         case 'subtract':
-          outputValue.value = firstOperand.value - secondOperand.value
-          break
+          return firstOperand.value - secondOperand.value
         case 'multiply':
-          outputValue.value = firstOperand.value * secondOperand.value
-          break
+          return firstOperand.value * secondOperand.value
         case 'divide':
-          outputValue.value =
-            secondOperand.value !== 0 ? firstOperand.value / secondOperand.value : 'На ноль делить нельзя!'
-          break
+          return secondOperand.value !== 0 ? firstOperand.value / secondOperand.value : 'На ноль делить нельзя!'
         default:
-          outputValue.value = 0
+          return 0
       }
-    }
-
-    watch([firstOperand, secondOperand, operator], calculateValue)
+    })
 
     return {
       firstOperand,
