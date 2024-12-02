@@ -66,10 +66,10 @@ export default defineComponent({
 
   template: `
     <div>
-      <UiFormGroup>
-        <UiInput v-model.trim="query" type="search" placeholder="Поиск" aria-label="Поиск" small />
-      </UiFormGroup>
-      <EmailList :emails="markedEmails" />
+      <ui-form-group>
+        <ui-input v-model.trim="query" type="search" placeholder="Поиск" aria-label="Поиск" small />
+      </ui-form-group>
+      <email-list :emails="markedEmails" @remove="removeEmailByIndex"/>
     </div>
   `,
 })
